@@ -97,6 +97,53 @@ class GradingUnitTests(unittest.TestCase):
             },
         )
 
+    def test_loads_challenge02_weighted_tests_and_generators(self):
+        challenge = ROOT / "challenges" / "challenge-02-retry-idempotency"
+        tests = load_test_cases(challenge / "test-cases" / "core.json")
+        self.assertEqual(len(tests), 21)
+        self.assertEqual(sum(case["weight"] for case in tests), 100)
+        category_weights = {}
+        for case in tests:
+            category_weights[case["category"]] = (
+                category_weights.get(case["category"], 0) + case["weight"]
+            )
+        self.assertEqual(
+            category_weights,
+            {
+                "core": 25,
+                "conflicts": 20,
+                "expiration": 25,
+                "adversarial": 20,
+                "performance": 10,
+            },
+        )
+        unique = next(case for case in tests if case["id"] == "max-unique-accounts-and-keys")
+        self.assertEqual(len(unique["input"].splitlines()), 400001)
+        self.assertTrue(unique["expected_output"].startswith("SUCCESS\n"))
+        repeated = next(case for case in tests if case["id"] == "max-reused-key-expiration")
+        self.assertEqual(repeated["input"].splitlines()[0], "2 200000 1")
+        self.assertEqual(repeated["expected_output"].splitlines()[-2:], ["a 100000", "b 100000"])
+
+    def test_challenge02_prompt_contains_only_public_problem(self):
+        from main import make_prompt
+
+        task_path = ROOT / "challenges" / "challenge-02-retry-idempotency"
+        prompt = make_prompt(task_path)
+        self.assertIn("Retry Idempotency Engine", prompt)
+        self.assertNotIn("max-unique-accounts-and-keys", prompt)
+        self.assertNotIn("Editorial:", prompt)
+
+    def test_sandboxed_grader_runs_challenge02_weighted_suite(self):
+        challenge = ROOT / "challenges" / "challenge-02-retry-idempotency"
+        source = (ROOT / "reference-solutions" / "challenge-02" / "Main.java").read_text(
+            encoding="utf-8"
+        )
+        tests = load_test_cases(challenge / "test-cases" / "core.json")
+        result = run_java(source, tests)
+        self.assertTrue(result["compiled"], result.get("compile_stderr"))
+        self.assertEqual(len(result["tests"]), 21)
+        self.assertEqual(result["passed_weight"], 100)
+
     def test_sandboxed_grader_reads_stdin_and_catches_mutation(self):
         source = (ROOT / "reference-solutions" / "challenge-01" / "Main.java").read_text(
             encoding="utf-8"

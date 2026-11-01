@@ -27,6 +27,12 @@ TASKS = {
         "path": ROOT / "challenges" / "challenge-01-transaction-collapse",
         "reference": ROOT / "reference-solutions" / "challenge-01" / "Main.java",
     },
+    "challenge-02-retry-idempotency": {
+        "task_id": "challenge-02-retry-idempotency",
+        "path": ROOT / "challenges" / "challenge-02-retry-idempotency",
+        "reference": ROOT / "reference-solutions" / "challenge-02" / "Main.java",
+        "test_timeout_seconds": 10,
+    },
 }
 DEFAULT_OUTPUT = Path(os.environ.get("EVAL_OUTPUT_DIR", ROOT / "results"))
 
@@ -120,7 +126,13 @@ def command_validate(args):
         task = TASKS[name]
         source = task["reference"].read_text(encoding="utf-8")
         tests = load_test_cases(task["path"] / "test-cases" / "core.json")
-        results[name] = run_java(source, tests, java=java, javac=javac)
+        results[name] = run_java(
+            source,
+            tests,
+            java=java,
+            javac=javac,
+            timeout_seconds=task.get("test_timeout_seconds", 5),
+        )
     validation_record = {
         "status": "REFERENCE_VALIDATION_ONLY",
         "is_model_evaluation": False,
@@ -140,7 +152,7 @@ def command_validate(args):
             for name, result in results.items()
         },
     }
-    write_json(ROOT / "results" / "reference-validation.json", validation_record)
+    write_json(Path(args.output), validation_record)
     print(json.dumps(results, indent=2))
     return 0 if all(
         result["compiled"] and result["passed_weight"] == 100 for result in results.values()
@@ -189,7 +201,7 @@ def command_evaluate(args):
                     "java_compiler": command_version(javac),
                     "sandbox": command_version(shutil.which("bwrap") or "bwrap"),
                     "api_timeout_seconds": 120,
-                    "test_timeout_seconds": 5,
+                    "test_timeout_seconds": task.get("test_timeout_seconds", 5),
                 }
                 try:
                     raw, request_id, usage = generate(model, prompt)
@@ -197,7 +209,13 @@ def command_evaluate(args):
                     source = extract_java_source(raw)
                     record["source_extraction"] = "code-block-or-plain-source"
                     record["extracted_java_source"] = source
-                    record["grading"] = run_java(source, tests, java=java, javac=javac)
+                    record["grading"] = run_java(
+                        source,
+                        tests,
+                        java=java,
+                        javac=javac,
+                        timeout_seconds=task.get("test_timeout_seconds", 5),
+                    )
                     record["attempt_status"] = "graded"
                 except (ProviderError, SandboxUnavailable, ValueError, OSError) as error:
                     record["error"] = str(error)
@@ -232,6 +250,11 @@ def main():
 
     validate = subparsers.add_parser("validate", help="Grade the local Java reference")
     validate.add_argument("--task", choices=["all", *TASKS], default="all")
+    validate.add_argument(
+        "--output",
+        default=str(ROOT / "results" / "reference-validation.json"),
+        help="Path for the reference-only validation record",
+    )
     validate.set_defaults(function=command_validate)
 
     evaluate = subparsers.add_parser("evaluate", help="Run configured model evaluations")

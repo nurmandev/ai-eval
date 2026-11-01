@@ -1,0 +1,6 @@
+2 3 5
+wallet-a 0
+wallet-b 5
+0 mobile transfer-3 wallet-a wallet-b 5
+2 mobile funding wallet-b wallet-a 5
+4 mobile transfer-3 wallet-a wallet-b 5

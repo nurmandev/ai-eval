@@ -1,115 +1,82 @@
 # Beyond the Happy Path
 
-**Evaluating AI-generated Java solutions for adversarial algorithmic constraints**
+This project tests how well AI models solve difficult Java programming problems.
+Each solution is compiled and checked against tests.
 
-> **Status: pilot implementation, not a completed competition submission.** One matched task pair (control A and experimental B), standalone Java references, independent oracle tests, weighted grading, and API adapters are present. No AI model evaluation has been run. This is not yet a 5–10-task benchmark or submission-ready package.
+## Project status
 
-## Short description
+There are two challenges:
 
-This project pilots execution-based evaluation of standalone Java solutions to deterministic algorithmic tasks with adversarial constraints. The paired research design compares bounded contiguous-deletion optimization with and without a global positive-element preservation rule while keeping input domain and objective matched. This is a candidate contribution, not a proven gap or conclusion about current AI models.
+1. **Challenge 01: Transaction Collapse Engine** — choose which part of a number sequence to remove while following a rule.
+2. **Challenge 02: Retry Idempotency Engine** — process money transfers while handling retries, duplicate keys, and expiration.
 
-**Key experimental finding:** Not available — no AI model runs have been performed.
+Both challenges have Java reference solutions and tests. The test suites pass locally.
 
-**Video demonstration:** `[INSERT PUBLIC VIDEO URL — not recorded or hosted]`
+**No AI models have been tested yet.** There are no model scores or findings. This is still a pilot project, not a finished submission.
 
-Submission-form description and video URL must be copied into the competition form after actual results and an accessible video exist.
+## Requirements
 
-## Domain and expertise
+- Linux
+- Python 3.12 or later
+- Java 17 or later
+- `make`
+- Bubblewrap (`bwrap`)
 
-Software engineering and computer science: Java 17-compatible programming, algorithms and data structures, competitive programming, mathematical reasoning, invariant checking, exact arithmetic, testing, and AI code-generation evaluation. The pilot measures sequential array optimization. It does **not** evaluate real database ACID behavior, distributed systems, multithreaded concurrency, or banking correctness.
+No extra Python packages are needed.
 
-## What the pilot measures and why it matters
+## Install and test
 
-The pilot measures whether a model returns a correct, efficient `Main.java` solution under a defined global feasibility constraint, hidden weighted tests, and an adversarial maximum-size case. It measures executable behavior, not persuasive explanations. Incorrect algorithms can cause wrong outputs or resource failures in software that processes transactional data; this single matched pair cannot establish general production-system reliability.
-
-## Repository structure
-
-```text
-.
-├── challenges/challenge-01-transaction-collapse/  # Experimental Version B
-├── tasks/transaction-collapse-control/           # Matched Control Version A
-├── reference-solutions/                           # Standalone Java references/editorials
-├── evaluator/                                      # API adapters, prompt, sandbox, grading
-├── validation/reference-validation/                # Exhaustive, seeded, stress, mutation tests
-├── research/                                       # Research design, sources, task plan, limits
-├── results/                                        # Explicit NOT RUN status and report templates
-├── docs/                                           # Study and scoring methodology
-└── scripts/                                        # Setup, validation, evaluation, packaging
-```
-
-## Setup
-
-Requirements: Linux/POSIX, Python 3.12 or later, Java/JDK 17 or later, `make`, and Bubblewrap (`bwrap`). The reference compiler targets Java 17 with `javac --release 17`. Local verification in this environment used OpenJDK 21.0.12.1; the final experiment must record its exact Java runtime/compiler versions. No third-party Python packages are currently required.
+From the project folder, run:
 
 ```bash
-git clone <repository-url>
-cd ai-eval
 make setup
 make test
 make validate
 ```
 
-`make test` includes exhaustive small-array comparisons against a separate Python brute-force oracle, seeded random comparisons, maximum-size reference execution, evaluator unit tests, sandbox checks, and a known-bug mutation check. `make validate` runs both weighted test suites against the local Java references in the same restricted execution runner used for generated Java, then writes `results/reference-validation.json`. This file is explicitly marked as reference-only, not an AI model result.
+- `make setup` checks that the required tools are installed.
+- `make test` runs the automated tests.
+- `make validate` compiles and grades each Java reference solution.
 
-## Run a model pilot
+Validation checks the Java solutions. It does **not** test AI models.
 
-Model calls require a real provider account and credentials. Only OpenAI, Anthropic, and Google adapters are currently implemented. Model IDs are not guessed or hardcoded; verify current API model IDs and enter the exact IDs in `evaluator/models/model-config.json`.
+## Challenges
+
+- [Challenge 01](challenges/challenge-01-transaction-collapse/README.md)
+- [Challenge 02](challenges/challenge-02-retry-idempotency/README.md)
+
+Challenge 02 has 21 scored tests worth 100 points in total. It also has five public sample cases and tests at the maximum input size.
+
+## Run an AI model evaluation
+
+This step is optional. It requires an API account and key from OpenAI, Anthropic, or Google.
+
+1. Copy `.env.example` to `.env` and add your API key.
+2. Add a current model ID to `evaluator/models/model-config.json`.
+3. Run:
 
 ```bash
-cp .env.example .env
-# Edit .env and enter only the provider key you intend to use.
-# Edit evaluator/models/model-config.json with one or more exact current model IDs.
-make pilot       # one run per configured model and task variant
-make evaluate    # MODEL_RUNS_PER_TASK runs (default 3) per model and variant
+make pilot
 make report
-make package     # creates a clearly labelled draft ZIP under dist/
 ```
 
-The pilot runs both matched task versions per model and repetition, alternating task order by run number. One side can be run alone:
+To run Challenge 02 only:
 
 ```bash
-python3 evaluator/main.py evaluate --task version-a-control --runs 1
-python3 evaluator/main.py evaluate --task version-b-experimental --runs 1
+python3 evaluator/main.py evaluate --task challenge-02-retry-idempotency --runs 1
 ```
 
-Example model configuration shape (replace the illustrative value with a verified current ID):
+Evaluation saves the prompt, model response, Java code, and test results under `results/`. Do not put API keys in the model configuration file or in source code.
 
-```json
-{
-  "models": [
-    {
-      "name": "provider-model",
-      "provider": "openai",
-      "model_id": "REPLACE_WITH_VERIFIED_MODEL_ID",
-      "temperature": 0,
-      "max_output_tokens": 8192
-    }
-  ]
-}
-```
+The evaluator runs generated Java in a restricted environment. This is a practical safety measure, not a guarantee that untrusted code is fully safe. Use a disposable machine or container when testing code from models.
 
-Supported `provider` values: `openai`, `anthropic`, `google`; matching keys are in `.env.example`. The exact prompt, response, extracted source, request ID, usage metadata, settings, and grading evidence are saved under `results/raw-outputs/`; credentials are not intentionally serialized. Provider pricing is not embedded because account terms and current pricing have not been verified. Token usage is retained when returned; no API-cost result is claimed.
+## Results and limitations
 
-Generated Java is compiled with annotation processing disabled and run with Bubblewrap network/PID namespace isolation, a minimal environment, temporary filesystem, Java heap cap, CPU/file-size limits, and wall-clock timeouts. This is a practical local sandbox, not a formally audited hostile-code containment system. Use a disposable machine/container for evaluation of untrusted code.
+- Local Java tests pass; see [Challenge 02 validation results](challenges/challenge-02-retry-idempotency/validation-report.md).
+- AI evaluation has not been run.
+- The project has not yet been expanded into a complete 5–10 challenge benchmark.
+- The original Challenge 01 source and the separate competition guide were not available during this work.
+- A public video and final submission package are still needed.
+- The participant must personally review and accept the competition agreement if required.
 
-## Scores and failure analysis
-
-Each task version has 12 weighted test cases totaling 100 points, including core behavior, boundaries, the global invariant, ties, long-sum behavior, and `N=200,000` performance. Each test has a documented ID, category, expected output, and weight in its version's test manifest. Scoring is strict except for trailing whitespace. Compilation and per-test execution outcomes are retained. The [grading methodology](docs/grading-methodology.md) defines scoring and execution limits.
-
-No model failure evidence currently exists. Automatic evidence is per-test status and raw output; algorithmic root-cause labels require careful review against that evidence. See the [failure-analysis template](results/failure-analysis.md). No model leaderboard or cost estimate is supplied before real runs.
-
-## Research, prior work, and originality
-
-The [research review](research/research-quality/related-work.md) discusses HumanEval, MBPP, SWE-bench, LiveCodeBench, and BigCodeBench. The paired task statements, references, editorials, and tests were authored for this repository; the standard prefix-sum/deque algorithm is established prior art and is not claimed as novel. The original Challenge 1 source was unavailable, so Version B is a new specification and does not claim to correct the missing source's examples.
-
-The review is focused, not systematic. Additional proposed sources (including ProBench, LiveCodeBench Pro, CONCUR, and PROBE) are not treated as verified evidence until their exact primary publications are identified.
-
-## Limitations and submission status
-
-One matched task pair cannot establish a general weakness in AI coding. No model IDs, scores, outputs, failure rates, actual costs, or empirical findings are available. No complete 5–10-task evaluation exists. The separate micro1 Participant Guide was not found in the inspected project locations.
-
-The competition brief gives a deadline of **November 9, 2026 at 05:15 GMT**. The final public video, result-backed report, clean-environment reproduction, and ZIP still require completion. The packaging script enforces the 50 MB limit, but a package created now is only a draft and is not submission-ready. See the [submission checklist](submission-checklist.md).
-
-**Manual participant requirement:** The human participant must personally review and accept the micro1 Participant Agreement if required. It has not been accepted on the participant’s behalf.
-
-See the [research limitations](research/research-limitations.md), [task-quality plan](research/task-specifications.md), and [video checklist](video-demo.txt).
+See the [submission checklist](submission-checklist.md) for remaining work.

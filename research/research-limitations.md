@@ -5,7 +5,7 @@
 - The repository did not include the original `Challenge_1_Transaction_Collapse_Engine.txt`.
 - No separate micro1 Participant Guide was found in the inspected project/Desktop paths. Competition requirements currently derive only from the user's supplied master brief.
 - Research is a focused initial review, not a systematic review; ProBench, LiveCodeBench Pro, CONCUR, and PROBE require exact identification and primary-source verification.
-- One matched pilot pair has authored statements, standalone Java references, weighted tests, local brute-force validation, and an evaluator prototype. A complete 5–10-task suite does not exist.
+- One matched pilot pair and one distinct Challenge 02 task have authored statements, standalone Java references, weighted tests, and local validation. A complete 5–10-task suite does not exist.
 - No model API credentials were set in the environment. No pilot or final model run has occurred.
 - There is no hosted video URL, final ZIP, or evidence that the participant agreement has been accepted.
 - The current machine provides Java 21 and Python 3.12; local Java compilation targets release 17. A clean-environment reproduction and exact final runtime pin remain outstanding.

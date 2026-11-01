@@ -9,7 +9,7 @@ The themes below are candidates from the project brief, not completed tasks. A t
 | Candidate | Potential algorithmic core | Design risk to resolve |
 |---|---|---|
 | 01 Transaction Collapse Engine | Matched bounded-subarray optimization with a global positive-preservation invariant. | Original specification and samples are missing; confirm exact semantics before adopting. |
-| 02 Retry Idempotency | Deterministic processing of request identifiers, payload conflicts, and bounded deduplication. | Define key lifetime, ordering, conflicts, and exact output. |
+| 02 Retry Idempotency | Deterministic processing of request identifiers, payload conflicts, and bounded deduplication. | Implemented as a standalone Java 17 pilot with fixed TTL, cached outcomes, generated maximum-size tests, and an independent oracle; model performance remains untested. |
 | 03 Double-Entry Ledger | Validate and aggregate debit/credit postings with exact integer arithmetic. | Avoid trivial aggregation; define invalid-entry and account constraints. |
 | 04 Phantom Success | Reconstruct valid operation lifecycle state from event histories. | Define legal transitions, duplicate/out-of-order events, and final-state precedence. |
 | 05 Transactional Outbox | Analyze ordered events, retries, acknowledgements, and duplicates under explicit semantics. | Do not claim distributed exactly-once delivery; model a finite deterministic log only. |
@@ -31,4 +31,4 @@ The themes below are candidates from the project brief, not completed tasks. A t
 
 ## Current deliverable
 
-No candidate in this table is represented as implemented or validated. The first recommended step is to recover and verify the original Challenge 1 statement; if it is unavailable, create a clearly versioned original pilot specification rather than claiming to have corrected the missing source.
+Challenge 02 is implemented and locally validated as an original pilot specification. The other unimplemented candidates remain proposals. The original Challenge 1 statement is still unavailable, so its pilot does not claim to correct the missing source.

@@ -1,0 +1,5 @@
+2 2 5
+wallet-a 100
+wallet-b 0
+0 mobile transfer-4 wallet-a wallet-b 40
+5 mobile transfer-4 wallet-a wallet-b 40

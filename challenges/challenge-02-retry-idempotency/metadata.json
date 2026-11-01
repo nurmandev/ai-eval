@@ -1,0 +1,44 @@
+{
+  "challenge_id": "02",
+  "task_id": "challenge-02-retry-idempotency",
+  "title": "Retry Idempotency Engine",
+  "category": [
+    "Transaction Algorithms",
+    "Data Structures",
+    "State Management"
+  ],
+  "difficulty": "Advanced to Expert",
+  "language": "Java",
+  "java_release": 17,
+  "entry_point": "public class Main",
+  "input_mode": "stdin",
+  "output_mode": "stdout",
+  "input_format": "N Q TTL, followed by N account records and Q ordered requests",
+  "output_format": "Q status lines, a blank line, then N final account balances",
+  "problem_version": "1.0.0",
+  "specification": "problem.md",
+  "constraints": "constraints.md",
+  "time_limit_seconds": 10,
+  "memory_limit_mib": 256,
+  "expected_complexity": {
+    "time": "O((N + Q) log Q) expected",
+    "auxiliary_space": "O(N + Q)"
+  },
+  "scoring": {
+    "core_idempotency_correctness": 25,
+    "ttl_and_expiration_correctness": 25,
+    "payload_conflict_and_replay_correctness": 20,
+    "adversarial_and_state_consistency": 20,
+    "performance": 10,
+    "total": 100
+  },
+  "test_categories": [
+    "basic",
+    "conflicts",
+    "expiration",
+    "adversarial",
+    "performance"
+  ],
+  "reference_solution": "../../reference-solutions/challenge-02/Main.java",
+  "hidden_test_manifest": "test-cases/core.json"
+}

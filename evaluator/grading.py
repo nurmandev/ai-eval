@@ -28,9 +28,9 @@ def extract_java_source(response):
     raise ValueError("No Java source block found in model response")
 
 
-def _limits(cpu_soft=4, cpu_hard=5):
+def _limits(cpu_soft=4, cpu_hard=5, file_size_limit=64 * 1024 * 1024):
     resource.setrlimit(resource.RLIMIT_CPU, (cpu_soft, cpu_hard))
-    resource.setrlimit(resource.RLIMIT_FSIZE, (1_000_000, 1_000_000))
+    resource.setrlimit(resource.RLIMIT_FSIZE, (file_size_limit, file_size_limit))
     resource.setrlimit(resource.RLIMIT_NOFILE, (32, 32))
 
 
@@ -194,8 +194,8 @@ def run_java(source, test_cases, java="java", javac="javac", timeout_seconds=5):
             }
 
         for case in test_cases:
-            if len(case["input"].encode("utf-8")) > 4_000_000:
-                raise ValueError(f"Input for test {case['id']} exceeds the 4 MB safety cap")
+            if len(case["input"].encode("utf-8")) > 64 * 1024 * 1024:
+                raise ValueError(f"Input for test {case['id']} exceeds the 64 MB safety cap")
             input_path = root / f"{case['id']}.in"
             output_path = root / f"{case['id']}.out"
             error_path = root / f"{case['id']}.err"
@@ -277,20 +277,69 @@ def run_java(source, test_cases, java="java", javac="javac", timeout_seconds=5):
 
 
 def load_test_cases(path):
-    cases = json.loads(Path(path).read_text(encoding="utf-8"))
+    manifest_path = Path(path)
+    cases = json.loads(manifest_path.read_text(encoding="utf-8"))
     for case in cases:
         generator = case.pop("generator", None)
         if generator:
-            if generator.get("kind") != "alternating":
-                raise ValueError(f"Unsupported input generator: {generator.get('kind')}")
-            n = int(generator["n"])
-            if n < 1 or n > 200_000 or n % 2:
-                raise ValueError("alternating stress generator requires even N in [2, 200000]")
-            values = [generator["positive"], generator["negative"]] * (n // 2)
-            case["input"] = (
-                f"{n} {generator['k']}\n"
-                + " ".join(map(str, values))
-                + "\n"
+            kind = generator.get("kind")
+            if kind == "alternating":
+                n = int(generator["n"])
+                if n < 1 or n > 200_000 or n % 2:
+                    raise ValueError("alternating stress generator requires even N in [2, 200000]")
+                values = [generator["positive"], generator["negative"]] * (n // 2)
+                case["input"] = (
+                    f"{n} {generator['k']}\n"
+                    + " ".join(map(str, values))
+                    + "\n"
+                )
+            elif kind == "idempotency_unique_max":
+                account_count = request_count = 200_000
+                input_lines = [
+                    f"{account_count} {request_count} 1000000000000000000",
+                    "a0 1000000000000000",
+                    *(f"a{i} 0" for i in range(1, account_count)),
+                    *(
+                        f"{i} c k{i} a0 a1 1"
+                        for i in range(request_count)
+                    ),
+                ]
+                output_lines = ["SUCCESS"] * request_count + [""]
+                output_lines.extend(
+                    (
+                        f"a0 {1_000_000_000_000_000 - request_count}",
+                        f"a1 {request_count}",
+                        *(f"a{i} 0" for i in range(2, account_count)),
+                    )
+                )
+                case["input"] = "\n".join(input_lines) + "\n"
+                case["expected_output"] = "\n".join(output_lines) + "\n"
+            elif kind == "idempotency_reuse_max":
+                request_count = 200_000
+                input_lines = [
+                    f"2 {request_count} 1",
+                    f"a {request_count}",
+                    "b 0",
+                    *(
+                        f"{i // 2} c repeated a b 1"
+                        for i in range(request_count)
+                    ),
+                ]
+                output_lines = [
+                    "SUCCESS" if i % 2 == 0 else "REPLAY_SUCCESS"
+                    for i in range(request_count)
+                ]
+                output_lines.extend(["", f"a {request_count // 2}", f"b {request_count // 2}"])
+                case["input"] = "\n".join(input_lines) + "\n"
+                case["expected_output"] = "\n".join(output_lines) + "\n"
+            else:
+                raise ValueError(f"Unsupported input generator: {kind}")
+        base_dir = manifest_path.parent
+        if "input_file" in case:
+            case["input"] = (base_dir / case.pop("input_file")).read_text(encoding="utf-8")
+        if "expected_output_file" in case:
+            case["expected_output"] = (
+                (base_dir / case.pop("expected_output_file")).read_text(encoding="utf-8")
             )
     if not cases or sum(case["weight"] for case in cases) != 100:
         raise ValueError("Test case weights must be nonempty and sum to 100")

@@ -1,7 +1,7 @@
 {
   "status": "REFERENCE_VALIDATION_ONLY",
   "is_model_evaluation": false,
-  "timestamp_utc": "2026-11-01T12:49:35.821390+00:00",
+  "timestamp_utc": "2026-11-01T13:04:16.784324+00:00",
   "java_runtime": "openjdk 21.0.12.1 2026-08-18",
   "java_compiler": "javac 21.0.12.1",
   "sandbox": "bubblewrap 0.9.0",
@@ -21,8 +21,8 @@
           "actual_output": "11\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 440.405,
-          "peak_rss_kb": 37756
+          "execution_time_ms": 337.024,
+          "peak_rss_kb": 37552
         },
         {
           "test_id": "edge-no-removal",
@@ -32,7 +32,7 @@
           "actual_output": "1\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 689.019,
+          "execution_time_ms": 295.734,
           "peak_rss_kb": 37580
         },
         {
@@ -43,8 +43,8 @@
           "actual_output": "6\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 554.372,
-          "peak_rss_kb": 37756
+          "execution_time_ms": 351.238,
+          "peak_rss_kb": 37828
         },
         {
           "test_id": "edge-single-positive",
@@ -54,8 +54,8 @@
           "actual_output": "0\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 497.081,
-          "peak_rss_kb": 37816
+          "execution_time_ms": 222.478,
+          "peak_rss_kb": 37636
         },
         {
           "test_id": "edge-length-at-most-k",
@@ -65,8 +65,8 @@
           "actual_output": "6\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 554.392,
-          "peak_rss_kb": 37508
+          "execution_time_ms": 174.395,
+          "peak_rss_kb": 37644
         },
         {
           "test_id": "adversarial-preserve-positive",
@@ -76,8 +76,8 @@
           "actual_output": "0\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 353.164,
-          "peak_rss_kb": 37880
+          "execution_time_ms": 174.975,
+          "peak_rss_kb": 37556
         },
         {
           "test_id": "edge-zero-values",
@@ -87,8 +87,8 @@
           "actual_output": "2\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 450.931,
-          "peak_rss_kb": 37848
+          "execution_time_ms": 330.512,
+          "peak_rss_kb": 37836
         },
         {
           "test_id": "adversarial-tied-optima",
@@ -98,8 +98,8 @@
           "actual_output": "3\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 393.517,
-          "peak_rss_kb": 37692
+          "execution_time_ms": 178.122,
+          "peak_rss_kb": 37492
         },
         {
           "test_id": "numeric-long-sum",
@@ -109,8 +109,8 @@
           "actual_output": "1000000000\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 231.785,
-          "peak_rss_kb": 37816
+          "execution_time_ms": 227.912,
+          "peak_rss_kb": 37564
         },
         {
           "test_id": "reference-sample-two",
@@ -120,8 +120,8 @@
           "actual_output": "3\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 335.912,
-          "peak_rss_kb": 37712
+          "execution_time_ms": 292.31,
+          "peak_rss_kb": 37696
         },
         {
           "test_id": "adversarial-deque-ordering",
@@ -131,8 +131,8 @@
           "actual_output": "1\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 490.385,
-          "peak_rss_kb": 37692
+          "execution_time_ms": 227.561,
+          "peak_rss_kb": 37956
         },
         {
           "test_id": "stress-max-size",
@@ -142,8 +142,8 @@
           "actual_output": "1000000000\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 1224.71,
-          "peak_rss_kb": 47448
+          "execution_time_ms": 431.847,
+          "peak_rss_kb": 47384
         }
       ],
       "passed_weight": 100
@@ -163,8 +163,8 @@
           "actual_output": "11\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 506.684,
-          "peak_rss_kb": 37728
+          "execution_time_ms": 121.071,
+          "peak_rss_kb": 37888
         },
         {
           "test_id": "edge-no-removal",
@@ -174,8 +174,8 @@
           "actual_output": "1\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 451.226,
-          "peak_rss_kb": 37580
+          "execution_time_ms": 118.402,
+          "peak_rss_kb": 37828
         },
         {
           "test_id": "edge-positive-only",
@@ -185,8 +185,8 @@
           "actual_output": "6\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 601.048,
-          "peak_rss_kb": 37620
+          "execution_time_ms": 121.446,
+          "peak_rss_kb": 37648
         },
         {
           "test_id": "edge-single-positive",
@@ -196,8 +196,8 @@
           "actual_output": "-43\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 497.663,
-          "peak_rss_kb": 37624
+          "execution_time_ms": 122.666,
+          "peak_rss_kb": 37816
         },
         {
           "test_id": "edge-length-at-most-k",
@@ -207,8 +207,8 @@
           "actual_output": "6\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 486.672,
-          "peak_rss_kb": 37752
+          "execution_time_ms": 120.687,
+          "peak_rss_kb": 37824
         },
         {
           "test_id": "adversarial-preserve-positive",
@@ -218,8 +218,8 @@
           "actual_output": "-98\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 558.591,
-          "peak_rss_kb": 37712
+          "execution_time_ms": 68.368,
+          "peak_rss_kb": 37684
         },
         {
           "test_id": "edge-zero-values",
@@ -229,8 +229,8 @@
           "actual_output": "2\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 567.0,
-          "peak_rss_kb": 37832
+          "execution_time_ms": 121.35,
+          "peak_rss_kb": 37620
         },
         {
           "test_id": "adversarial-tied-optima",
@@ -240,8 +240,8 @@
           "actual_output": "3\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 447.089,
-          "peak_rss_kb": 37600
+          "execution_time_ms": 118.994,
+          "peak_rss_kb": 37556
         },
         {
           "test_id": "numeric-long-sum",
@@ -251,8 +251,8 @@
           "actual_output": "1000000000\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 398.575,
-          "peak_rss_kb": 37692
+          "execution_time_ms": 67.382,
+          "peak_rss_kb": 37528
         },
         {
           "test_id": "reference-sample-two",
@@ -262,8 +262,8 @@
           "actual_output": "3\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 404.763,
-          "peak_rss_kb": 37692
+          "execution_time_ms": 67.269,
+          "peak_rss_kb": 37620
         },
         {
           "test_id": "adversarial-deque-ordering",
@@ -273,8 +273,8 @@
           "actual_output": "1\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 442.365,
-          "peak_rss_kb": 37720
+          "execution_time_ms": 67.49,
+          "peak_rss_kb": 37956
         },
         {
           "test_id": "stress-max-size",
@@ -284,8 +284,8 @@
           "actual_output": "1000000000\n",
           "stderr": "",
           "exit_code": 0,
-          "execution_time_ms": 970.343,
-          "peak_rss_kb": 47720
+          "execution_time_ms": 269.557,
+          "peak_rss_kb": 47768
         }
       ],
       "passed_weight": 100

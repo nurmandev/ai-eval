@@ -1,0 +1,23 @@
+[
+  {"id":"basic-success","category":"core","weight":5,"input_file":"../tests/basic/basic-success.in","expected_output_file":"../tests/expected-outputs/basic-success.out"},
+  {"id":"basic-insufficient","category":"core","weight":5,"input_file":"../tests/basic/basic-insufficient.in","expected_output_file":"../tests/expected-outputs/basic-insufficient.out"},
+  {"id":"identical-replays","category":"core","weight":5,"input_file":"../tests/basic/identical-replays.in","expected_output_file":"../tests/expected-outputs/identical-replays.out"},
+  {"id":"cached-failure-after-funding","category":"core","weight":5,"input_file":"../tests/basic/cached-failure-after-funding.in","expected_output_file":"../tests/expected-outputs/cached-failure-after-funding.out"},
+  {"id":"invalid-does-not-reserve","category":"core","weight":5,"input_file":"../tests/basic/invalid-does-not-reserve.in","expected_output_file":"../tests/expected-outputs/invalid-does-not-reserve.out"},
+  {"id":"payload-conflicts","category":"conflicts","weight":4,"input_file":"../tests/conflicts/payload-conflicts.in","expected_output_file":"../tests/expected-outputs/payload-conflicts.out"},
+  {"id":"client-scope","category":"conflicts","weight":4,"input_file":"../tests/conflicts/client-scope.in","expected_output_file":"../tests/expected-outputs/client-scope.out"},
+  {"id":"case-sensitive-identifiers","category":"conflicts","weight":4,"input_file":"../tests/conflicts/case-sensitive-identifiers.in","expected_output_file":"../tests/expected-outputs/case-sensitive-identifiers.out"},
+  {"id":"different-keys","category":"conflicts","weight":4,"input_file":"../tests/conflicts/different-keys.in","expected_output_file":"../tests/expected-outputs/different-keys.out"},
+  {"id":"conflict-before-validation","category":"conflicts","weight":4,"input_file":"../tests/conflicts/conflict-before-validation.in","expected_output_file":"../tests/expected-outputs/conflict-before-validation.out"},
+  {"id":"fixed-boundary","category":"expiration","weight":5,"input_file":"../tests/expiration/fixed-boundary.in","expected_output_file":"../tests/expected-outputs/fixed-boundary.out"},
+  {"id":"retries-do-not-extend-ttl","category":"expiration","weight":5,"input_file":"../tests/expiration/retries-do-not-extend-ttl.in","expected_output_file":"../tests/expected-outputs/retries-do-not-extend-ttl.out"},
+  {"id":"same-timestamp-order","category":"expiration","weight":5,"input_file":"../tests/expiration/same-timestamp-order.in","expected_output_file":"../tests/expected-outputs/same-timestamp-order.out"},
+  {"id":"failed-record-reuse","category":"expiration","weight":5,"input_file":"../tests/expiration/failed-record-reuse.in","expected_output_file":"../tests/expected-outputs/failed-record-reuse.out"},
+  {"id":"large-timestamps","category":"expiration","weight":5,"input_file":"../tests/expiration/large-timestamps.in","expected_output_file":"../tests/expected-outputs/large-timestamps.out"},
+  {"id":"state-consistency","category":"adversarial","weight":5,"input_file":"../tests/adversarial/state-consistency.in","expected_output_file":"../tests/expected-outputs/state-consistency.out"},
+  {"id":"interleaved-reuse","category":"adversarial","weight":5,"input_file":"../tests/adversarial/interleaved-reuse.in","expected_output_file":"../tests/expected-outputs/interleaved-reuse.out"},
+  {"id":"large-balances","category":"adversarial","weight":5,"input_file":"../tests/adversarial/large-balances.in","expected_output_file":"../tests/expected-outputs/large-balances.out"},
+  {"id":"self-transfer","category":"adversarial","weight":5,"input_file":"../tests/adversarial/self-transfer.in","expected_output_file":"../tests/expected-outputs/self-transfer.out"},
+  {"id":"max-unique-accounts-and-keys","category":"performance","weight":5,"generator":{"kind":"idempotency_unique_max"}},
+  {"id":"max-reused-key-expiration","category":"performance","weight":5,"generator":{"kind":"idempotency_reuse_max"}}
+]

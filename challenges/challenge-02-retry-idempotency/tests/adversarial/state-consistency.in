@@ -1,0 +1,12 @@
+3 8 20
+a 100
+b 0
+c 0
+0 c ok a b 25
+1 c ok a b 25
+2 c ok a c 25
+3 c poor a b 100
+4 c poor a b 100
+5 c zero a b 0
+6 c unknown missing b 1
+7 other-client ok a c 10

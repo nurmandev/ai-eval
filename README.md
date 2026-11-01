@@ -1,57 +1,115 @@
-# AI Evaluation Research
+# Beyond the Happy Path
 
-## Purpose
+**Evaluating AI-generated Java solutions for adversarial algorithmic constraints**
 
-This project defines a research design for evaluating AI-generated Java solutions to **Challenge 1: The Transaction Collapse Engine**. Its current scope is limited to project organization and the five Research Quality criteria: a precise question, a defensible gap, related work, measurable hypotheses, and research neutrality.
+> **Status: pilot implementation, not a completed competition submission.** One matched task pair (control A and experimental B), standalone Java references, independent oracle tests, weighted grading, and API adapters are present. No AI model evaluation has been run. This is not yet a 5–10-task benchmark or submission-ready package.
 
-The challenge is an abstract sequence-optimization problem. It is not a benchmark of database transactions, ACID properties, multithreaded concurrency, or distributed ledgers.
+## Short description
 
-## Status
+This project pilots execution-based evaluation of standalone Java solutions to deterministic algorithmic tasks with adversarial constraints. The paired research design compares bounded contiguous-deletion optimization with and without a global positive-element preservation rule while keeping input domain and objective matched. This is a candidate contribution, not a proven gap or conclusion about current AI models.
 
-- Research question and proposed experimental design: drafted.
-- Literature review: initial synthesis based on the supplied research; primary-source verification remains pending where noted.
-- Empirical model evaluation: **not conducted**.
-- Reference implementation, hidden tests, and challenge corrections: outside this phase.
+**Key experimental finding:** Not available — no AI model runs have been performed.
 
-## Structure
+**Video demonstration:** `[INSERT PUBLIC VIDEO URL — not recorded or hosted]`
+
+Submission-form description and video URL must be copied into the competition form after actual results and an accessible video exist.
+
+## Domain and expertise
+
+Software engineering and computer science: Java 17-compatible programming, algorithms and data structures, competitive programming, mathematical reasoning, invariant checking, exact arithmetic, testing, and AI code-generation evaluation. The pilot measures sequential array optimization. It does **not** evaluate real database ACID behavior, distributed systems, multithreaded concurrency, or banking correctness.
+
+## What the pilot measures and why it matters
+
+The pilot measures whether a model returns a correct, efficient `Main.java` solution under a defined global feasibility constraint, hidden weighted tests, and an adversarial maximum-size case. It measures executable behavior, not persuasive explanations. Incorrect algorithms can cause wrong outputs or resource failures in software that processes transactional data; this single matched pair cannot establish general production-system reliability.
+
+## Repository structure
 
 ```text
 .
-├── README.md
-├── research/
-│   └── research-quality/
-│       ├── README.md
-│       ├── research-question.md
-│       ├── research-gap.md
-│       ├── related-work.md
-│       ├── hypothesis.md
-│       ├── research-bias-and-validity.md
-│       ├── research-sources.md
-│       └── research-quality-checklist.md
-├── references/
-│   └── README.md
-├── challenges/
-│   └── challenge-01-transaction-collapse/
-│       └── README.md
-└── docs/
-    └── research-methodology.md
+├── challenges/challenge-01-transaction-collapse/  # Experimental Version B
+├── tasks/transaction-collapse-control/           # Matched Control Version A
+├── reference-solutions/                           # Standalone Java references/editorials
+├── evaluator/                                      # API adapters, prompt, sandbox, grading
+├── validation/reference-validation/                # Exhaustive, seeded, stress, mutation tests
+├── research/                                       # Research design, sources, task plan, limits
+├── results/                                        # Explicit NOT RUN status and report templates
+├── docs/                                           # Study and scoring methodology
+└── scripts/                                        # Setup, validation, evaluation, packaging
 ```
 
-## Navigation
+## Setup
 
-- [Research Quality guide](research/research-quality/README.md)
-- [Research methodology](docs/research-methodology.md)
-- [References and verification status](references/README.md)
-- [Challenge research subject](challenges/challenge-01-transaction-collapse/README.md)
+Requirements: Linux/POSIX, Python 3.12 or later, Java/JDK 17 or later, `make`, and Bubblewrap (`bwrap`). The reference compiler targets Java 17 with `javac --release 17`. Local verification in this environment used OpenJDK 21.0.12.1; the final experiment must record its exact Java runtime/compiler versions. No third-party Python packages are currently required.
 
-## Research summary from the pasted brief
+```bash
+git clone <repository-url>
+cd ai-eval
+make setup
+make test
+make validate
+```
 
-The pasted research frames the problem as an AI evaluation task for Java code generation under a constrained transactional optimization setting. It argues that the benchmark should be treated as a controlled algorithmic reasoning problem, not as a test of database transactions, concurrency, or distributed ledger behavior.
+`make test` includes exhaustive small-array comparisons against a separate Python brute-force oracle, seeded random comparisons, maximum-size reference execution, evaluator unit tests, sandbox checks, and a known-bug mutation check. `make validate` runs both weighted test suites against the local Java references in the same restricted execution runner used for generated Java, then writes `results/reference-validation.json`. This file is explicitly marked as reference-only, not an AI model result.
 
-The central distinction is between a general code-generation benchmark and a more specific evaluation of whether models can implement a valid optimization algorithm when a global feasibility rule is added. In the supplied formulation, the model must choose a contiguous deletion of length at most `K`, maximize the retained sum, and preserve at least one strictly positive element. This is a sequential array problem with a global constraint, and it is specifically positioned as a challenge for correctness under adversarial input conditions and hidden tests.
+## Run a model pilot
 
-The brief also emphasizes that the challenge's documentation must be corrected before it is used as a research instrument: contradictory examples, invalid boundary assumptions, and inaccurate procedure descriptions can undermine the credibility of the benchmark. The research therefore treats the challenge as a useful evaluation target only once its examples, constraints, and algorithmic interpretation are reconciled against the original statement.
+Model calls require a real provider account and credentials. Only OpenAI, Anthropic, and Google adapters are currently implemented. Model IDs are not guessed or hardcoded; verify current API model IDs and enter the exact IDs in `evaluator/models/model-config.json`.
 
-No empirical results are claimed here; the work remains a research-design and documentation effort, with validation explicitly pending.
+```bash
+cp .env.example .env
+# Edit .env and enter only the provider key you intend to use.
+# Edit evaluator/models/model-config.json with one or more exact current model IDs.
+make pilot       # one run per configured model and task variant
+make evaluate    # MODEL_RUNS_PER_TASK runs (default 3) per model and variant
+make report
+make package     # creates a clearly labelled draft ZIP under dist/
+```
 
-No challenge specification or Java implementation is included in this research-only phase.
+The pilot runs both matched task versions per model and repetition, alternating task order by run number. One side can be run alone:
+
+```bash
+python3 evaluator/main.py evaluate --task version-a-control --runs 1
+python3 evaluator/main.py evaluate --task version-b-experimental --runs 1
+```
+
+Example model configuration shape (replace the illustrative value with a verified current ID):
+
+```json
+{
+  "models": [
+    {
+      "name": "provider-model",
+      "provider": "openai",
+      "model_id": "REPLACE_WITH_VERIFIED_MODEL_ID",
+      "temperature": 0,
+      "max_output_tokens": 8192
+    }
+  ]
+}
+```
+
+Supported `provider` values: `openai`, `anthropic`, `google`; matching keys are in `.env.example`. The exact prompt, response, extracted source, request ID, usage metadata, settings, and grading evidence are saved under `results/raw-outputs/`; credentials are not intentionally serialized. Provider pricing is not embedded because account terms and current pricing have not been verified. Token usage is retained when returned; no API-cost result is claimed.
+
+Generated Java is compiled with annotation processing disabled and run with Bubblewrap network/PID namespace isolation, a minimal environment, temporary filesystem, Java heap cap, CPU/file-size limits, and wall-clock timeouts. This is a practical local sandbox, not a formally audited hostile-code containment system. Use a disposable machine/container for evaluation of untrusted code.
+
+## Scores and failure analysis
+
+Each task version has 12 weighted test cases totaling 100 points, including core behavior, boundaries, the global invariant, ties, long-sum behavior, and `N=200,000` performance. Each test has a documented ID, category, expected output, and weight in its version's test manifest. Scoring is strict except for trailing whitespace. Compilation and per-test execution outcomes are retained. The [grading methodology](docs/grading-methodology.md) defines scoring and execution limits.
+
+No model failure evidence currently exists. Automatic evidence is per-test status and raw output; algorithmic root-cause labels require careful review against that evidence. See the [failure-analysis template](results/failure-analysis.md). No model leaderboard or cost estimate is supplied before real runs.
+
+## Research, prior work, and originality
+
+The [research review](research/research-quality/related-work.md) discusses HumanEval, MBPP, SWE-bench, LiveCodeBench, and BigCodeBench. The paired task statements, references, editorials, and tests were authored for this repository; the standard prefix-sum/deque algorithm is established prior art and is not claimed as novel. The original Challenge 1 source was unavailable, so Version B is a new specification and does not claim to correct the missing source's examples.
+
+The review is focused, not systematic. Additional proposed sources (including ProBench, LiveCodeBench Pro, CONCUR, and PROBE) are not treated as verified evidence until their exact primary publications are identified.
+
+## Limitations and submission status
+
+One matched task pair cannot establish a general weakness in AI coding. No model IDs, scores, outputs, failure rates, actual costs, or empirical findings are available. No complete 5–10-task evaluation exists. The separate micro1 Participant Guide was not found in the inspected project locations.
+
+The competition brief gives a deadline of **November 9, 2026 at 05:15 GMT**. The final public video, result-backed report, clean-environment reproduction, and ZIP still require completion. The packaging script enforces the 50 MB limit, but a package created now is only a draft and is not submission-ready. See the [submission checklist](submission-checklist.md).
+
+**Manual participant requirement:** The human participant must personally review and accept the micro1 Participant Agreement if required. It has not been accepted on the participant’s behalf.
+
+See the [research limitations](research/research-limitations.md), [task-quality plan](research/task-specifications.md), and [video checklist](video-demo.txt).

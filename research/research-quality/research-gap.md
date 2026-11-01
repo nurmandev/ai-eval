@@ -1,27 +1,34 @@
 # Research Gap
 
-## Existing evaluation landscape
+## What prior work establishes
 
-The supplied research identifies established work on contamination-aware code-generation benchmarks, competitive programming, expert-level programming tasks, concurrent-code generation, and multidimensional code quality. This makes a broad claim such as “AI-generated difficult code has not been evaluated” or “concurrency has not been studied” indefensible. The relevant work and source-verification limits are summarized in [related-work.md](related-work.md).
+Existing benchmarks already measure functional code correctness, natural-language-to-code synthesis, fresh competitive-programming tasks, complex instruction following, and multi-file software engineering. These establish that neither “AI coding has not been evaluated” nor “AI fails at hard programming” is a defensible gap. See the [related-work review](related-work.md) and [source log](research-sources.md).
 
-## Narrow candidate contribution
+## Narrow, testable candidate gap
 
-The proposed study compares two matched task variants:
+This project will first pilot a matched Java algorithmic comparison:
 
-- **Version A — Control:** bounded contiguous-subarray deletion without the positive-element preservation rule.
-- **Version B — Experimental:** the same optimization problem, requiring at least one strictly positive element to remain after deletion.
+- **Version A:** bounded contiguous-subarray deletion to maximize the retained sum.
+- **Version B:** the same task with the additional rule that at least one strictly positive array element must remain.
 
-The candidate contribution is measuring the effect of this single global feasibility constraint on first-attempt acceptance and failure patterns in Java solutions. The challenge is whether a model correctly rejects an otherwise attractive deletion that would violate the global rule, while still meeting numerical and complexity constraints.
+The candidate research question is whether adding this global feasibility constraint changes first-attempt functional acceptance under identical prompts, runtimes, and a frozen hidden test suite. A second outcome is the distribution of objectively classifiable failure types.
 
-## Concepts that must remain distinct
+This is a proposed evaluation dimension, not a claim that no prior benchmark contains similar problems. Before asserting novelty, inspect the task inventories and methods of relevant benchmarks and search specifically for matched-variant studies of algorithmic feasibility constraints. If close prior art is found, the contribution must be narrowed or the task replaced.
 
-- **General code generation** includes a wide range of software tasks and is broader than this study.
-- **Concurrent code generation** concerns interactions among concurrent operations and synchronization. This task, as currently described, is sequential.
-- **Sequential transaction-sequence optimization** is the illustrative domain framing; it does not imply database transaction processing.
-- **Global feasibility in optimization** is the specific algorithmic property being isolated: a candidate deletion may optimize the objective but remain infeasible.
+## Relationship to the wider project proposal
 
-## Novelty and limitations
+The project prompt proposes ten transaction/state-management themes, including retry handling, ledger invariants, lifecycle reconstruction, outbox semantics, graph dependencies, isolation histories, crash recovery, exact arithmetic, and reconciliation. These are candidate directions only. They are not yet ten validated tasks, and several have substantial overlap or can become ambiguous or intractable unless reduced to precisely defined deterministic algorithms.
 
-This is a candidate research dimension, not an established novelty claim. A defensible gap requires checking the actual tasks, annotations, and evaluation methods in the cited benchmarks, and searching for prior work on global constraints in programming-problem generation and evaluation. If closely related tasks already exist, narrow the contribution to a reproducible matched-variant study of this specific Java problem.
+The initial pilot is intentionally narrower than claims about real-world transaction systems or concurrency. A sequential array task does not demonstrate database correctness, concurrent execution, distributed exactly-once delivery, or state-machine reliability. Later tasks should be added only when literature review, deterministic specifications, oracle validation, and pilot evidence justify them.
 
-The study's external validity is limited: one problem, one language, and one added constraint cannot establish broad claims about AI coding ability. Attribution also depends on the two task statements being equally clear and differing only in the intended constraint.
+## Practical significance
+
+Incorrect algorithmic handling of invariants, numeric limits, ordering, and worst-case complexity can cause incorrect outputs or resource failures in software that processes transactional data. This benchmark can demonstrate performance on its own defined tasks; it cannot establish that a model is generally unsafe for banking or production systems.
+
+## Novelty and validity risks
+
+- One task cannot support broad conclusions about Java or transaction processing.
+- A poorly matched Version A/Version B pair could measure statement clarity rather than the added constraint.
+- Existing benchmark contamination and task exposure can influence results; new tasks and frozen prompts/tests help but do not prove that no training contamination exists.
+- Benchmark statistics from mutable releases must be tied to a specific release and access date.
+- The original Transaction Collapse Engine statement is absent from the repository. Any reported sample corrections and exact limits remain unverified until that source is obtained.

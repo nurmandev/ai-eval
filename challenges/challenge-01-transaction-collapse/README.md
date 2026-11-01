@@ -1,33 +1,16 @@
-# Challenge 1: The Transaction Collapse Engine
+# Challenge 01: Transaction Collapse Engine
 
-This folder identifies the subject of the research evaluation only. The original challenge statement was not available in the workspace during this phase, so no specification or sample has been recreated or modified.
+This directory contains a **newly authored pilot problem**, not the original `Challenge_1_Transaction_Collapse_Engine.txt`. The original file was unavailable in the inspected repository, so the pilot does not claim to verify or correct the reported examples 2 and 4 (reported answers `21` and `4` remain unverified).
 
-The supplied research describes a Java 17 standalone solution for removing at most one contiguous block of length at most `K` from an array, maximizing the remaining sum, while preserving at least one strictly positive element. It reports `N <= 200,000`; all exact input guarantees, value bounds, output rules, examples, and resource limits must be checked against the original statement before evaluation.
+- [Complete task statement and authored samples](problem.md)
+- [Machine-readable metadata](metadata.json)
+- [Weighted grader test manifest](test-cases/core.json)
+- [Standalone Java 17 reference and editorial](../../reference-solutions/challenge-01/editorial.md)
 
-The challenge is an abstract sequential array-optimization task, not database transaction processing or concurrent programming. The research summary reports possible inconsistencies in Examples 2 and 4, but those outputs have not been independently checked here. See [the checklist](../../research/research-quality/research-quality-checklist.md).
+The pilot asks for the maximum retained array sum after optionally removing one non-empty contiguous block of length at most `K`, subject to at least one strictly positive value remaining. The input guarantees at least one positive element. It is an abstract sequential array-optimization problem, not database transaction processing, ACID behavior, or concurrency.
 
-## Research summary from the supplied brief
+The [matched control, Version A](../../tasks/transaction-collapse-control/problem.md), uses the same input domain and objective without the positive-preservation rule. For example, both receive `3 3` and `-100 1 -100`; Version A returns `0` by removing the entire sequence, while Version B must retain a positive value and returns `-99`.
 
-The supplied research argues that this should be treated as a software-engineering and AI-evaluation problem rather than as a general concurrency benchmark. The central question is whether AI coding models can independently generate functionally correct, deterministic, and constraint-compliant Java implementations when transaction outcomes depend on ordering, conflicts, numerical boundaries, and feasibility constraints.
+The problem's algorithmic reduction uses prefix sums and a monotonic deque. Both references were checked against exhaustive enumeration on small inputs, seeded random inputs, and maximum-size stress cases. The weighted grader was also tested against a deliberate deque mutation. These checks validate this repository's pilot pair only and say nothing about AI model performance.
 
-The research distinguishes the challenge from true database transactions or multithreaded concurrent execution: it is a sequential optimization problem disguised as a financial scenario. The algorithmic core is not a concurrency challenge; it is a bounded contiguous-deletion optimization problem that requires array reasoning, prefix sums, sliding-window logic, and a validity check that prevents the deletion from removing all positive values.
-
-The brief also notes that, in the current document set, the challenge's actual requirements appear to be:
-
-- choose at most one contiguous deletion window
-- limit the deletion length to `K`
-- maximize the sum of retained values
-- preserve at least one strictly positive value
-- use `long` arithmetic for numerical correctness
-- maintain `O(N)` or `O(N log N)` complexity
-
-It further argues that the challenge's sample explanations contain contradictions and that the outputs for Example 2 and Example 4 may be incorrect. The research urges that these examples and their explanations be corrected before the challenge is used in a benchmark or submission pipeline, because benchmark reliability depends on consistent and independently validated examples.
-
-The brief proposes a matched design that compares:
-
-- Version A: the base contiguous-subarray deletion problem without the positive-preservation rule
-- Version B: the same optimization with the added global constraint that at least one strictly positive element remains after deletion
-
-The key hypothesis is that AI models will perform worse on Version B because the extra feasibility rule creates a global validity condition that can make an otherwise optimal deletion invalid. The null hypothesis is that no statistically reliable difference exists in first-attempt acceptance rates between the two versions.
-
-The methodology emphasizes a precise, reproducible evaluation protocol with hidden tests, reference validation, and a failure taxonomy. It explicitly states that no experiments are considered complete until they have actually been run and documented. The supplied brief therefore frames this project as a research design and a research-quality section, not as a completed empirical study.
+The research design proposes a paired Version A without the preservation rule. That control task has not yet been authored or validated, so the empirical hypothesis cannot be tested yet.

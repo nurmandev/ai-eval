@@ -2,6 +2,8 @@
 
 This section defines the research question, proposed contribution, related-work review, hypotheses, and safeguards for evaluating AI-generated Java solutions to the Transaction Collapse Engine.
 
+For the broader project state and candidate portfolio, see the [research overview](../research-overview.md), [task specification plan](../task-specifications.md), and [limitations log](../research-limitations.md).
+
 ## Five research-quality criteria
 
 | Criterion | Document | Status |

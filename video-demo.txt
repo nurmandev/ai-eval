@@ -1,0 +1,13 @@
+VIDEO WALKTHROUGH — NOT YET RECORDED
+
+Public video URL for README and submission form: [I WILL ADD IT HERE]
+Maximum duration: 5 minutes
+Required access: anyone with the link, no permission request
+
+Suggested outline:
+1. Research question and why adversarial algorithmic constraints matter.
+2. Explain the pilot task and explicitly limit what it represents.
+3. Show the common prompt and standalone Java 17 contract.
+4. Demonstrate reference validation, independent brute-force checks, and sandboxed grading.
+5. Present only actual recorded model results; if no model runs exist, state that clearly.
+6. Describe current limitations and next validation steps.

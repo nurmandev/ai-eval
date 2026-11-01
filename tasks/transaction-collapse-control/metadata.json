@@ -1,0 +1,25 @@
+{
+  "task_id": "version-a-control",
+  "title": "Transaction Collapse Engine — Control Version A",
+  "status": "matched-control-pilot",
+  "specification": "problem.md",
+  "language": "Java",
+  "java_release": 17,
+  "entry_point": "public class Main",
+  "input_mode": "stdin",
+  "output_mode": "stdout",
+  "constraints": {
+    "n_min": 1,
+    "n_max": 200000,
+    "k_min": 0,
+    "k_max": "N",
+    "value_min": -1000000000,
+    "value_max": 1000000000,
+    "at_least_one_positive_in_input": true,
+    "positive_must_remain_after_removal": false
+  },
+  "expected_complexity": {
+    "time": "O(N)",
+    "auxiliary_space": "O(N)"
+  }
+}

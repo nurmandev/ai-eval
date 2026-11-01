@@ -1,0 +1,294 @@
+{
+  "status": "REFERENCE_VALIDATION_ONLY",
+  "is_model_evaluation": false,
+  "timestamp_utc": "2026-11-01T12:49:35.821390+00:00",
+  "java_runtime": "openjdk 21.0.12.1 2026-08-18",
+  "java_compiler": "javac 21.0.12.1",
+  "sandbox": "bubblewrap 0.9.0",
+  "tasks": {
+    "version-a-control": {
+      "reference_sha256": "c418623fbb30f2d7bee74f3000f07e2d4e25eddcabe8ff4d5f31a7491ead8623",
+      "specification_sha256": "f5f4627fb117773d95acb16cae0e79e69ad56da535c5d2d72a5aee32c036c470",
+      "test_manifest_sha256": "f1aa06ccee010b4cc2d35c236bce639444c16d7045b5226430e990cf303a6cbb",
+      "compiled": true,
+      "compile_stderr": "",
+      "tests": [
+        {
+          "test_id": "core-mixed-values",
+          "category": "core",
+          "status": "passed",
+          "weight": 10,
+          "actual_output": "11\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 440.405,
+          "peak_rss_kb": 37756
+        },
+        {
+          "test_id": "edge-no-removal",
+          "category": "edge",
+          "status": "passed",
+          "weight": 5,
+          "actual_output": "1\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 689.019,
+          "peak_rss_kb": 37580
+        },
+        {
+          "test_id": "edge-positive-only",
+          "category": "edge",
+          "status": "passed",
+          "weight": 5,
+          "actual_output": "6\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 554.372,
+          "peak_rss_kb": 37756
+        },
+        {
+          "test_id": "edge-single-positive",
+          "category": "edge",
+          "status": "passed",
+          "weight": 5,
+          "actual_output": "0\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 497.081,
+          "peak_rss_kb": 37816
+        },
+        {
+          "test_id": "edge-length-at-most-k",
+          "category": "edge",
+          "status": "passed",
+          "weight": 10,
+          "actual_output": "6\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 554.392,
+          "peak_rss_kb": 37508
+        },
+        {
+          "test_id": "adversarial-preserve-positive",
+          "category": "adversarial",
+          "status": "passed",
+          "weight": 20,
+          "actual_output": "0\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 353.164,
+          "peak_rss_kb": 37880
+        },
+        {
+          "test_id": "edge-zero-values",
+          "category": "edge",
+          "status": "passed",
+          "weight": 5,
+          "actual_output": "2\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 450.931,
+          "peak_rss_kb": 37848
+        },
+        {
+          "test_id": "adversarial-tied-optima",
+          "category": "adversarial",
+          "status": "passed",
+          "weight": 5,
+          "actual_output": "3\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 393.517,
+          "peak_rss_kb": 37692
+        },
+        {
+          "test_id": "numeric-long-sum",
+          "category": "numeric",
+          "status": "passed",
+          "weight": 10,
+          "actual_output": "1000000000\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 231.785,
+          "peak_rss_kb": 37816
+        },
+        {
+          "test_id": "reference-sample-two",
+          "category": "core",
+          "status": "passed",
+          "weight": 5,
+          "actual_output": "3\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 335.912,
+          "peak_rss_kb": 37712
+        },
+        {
+          "test_id": "adversarial-deque-ordering",
+          "category": "adversarial",
+          "status": "passed",
+          "weight": 5,
+          "actual_output": "1\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 490.385,
+          "peak_rss_kb": 37692
+        },
+        {
+          "test_id": "stress-max-size",
+          "category": "performance",
+          "status": "passed",
+          "weight": 15,
+          "actual_output": "1000000000\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 1224.71,
+          "peak_rss_kb": 47448
+        }
+      ],
+      "passed_weight": 100
+    },
+    "version-b-experimental": {
+      "reference_sha256": "9a6442c8ba283bbcd3ba94a8327d6a86c641fd104543e5d4697f455f1ba6dd5f",
+      "specification_sha256": "536c6ee5bdd84067375a2a680340fbcfb07f70e911fb1c8ec7501a67308863ef",
+      "test_manifest_sha256": "9fad003467041918d44154d17d2559760f37865defebad5b61d821b97c556f0a",
+      "compiled": true,
+      "compile_stderr": "",
+      "tests": [
+        {
+          "test_id": "core-mixed-values",
+          "category": "core",
+          "status": "passed",
+          "weight": 10,
+          "actual_output": "11\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 506.684,
+          "peak_rss_kb": 37728
+        },
+        {
+          "test_id": "edge-no-removal",
+          "category": "edge",
+          "status": "passed",
+          "weight": 5,
+          "actual_output": "1\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 451.226,
+          "peak_rss_kb": 37580
+        },
+        {
+          "test_id": "edge-positive-only",
+          "category": "edge",
+          "status": "passed",
+          "weight": 5,
+          "actual_output": "6\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 601.048,
+          "peak_rss_kb": 37620
+        },
+        {
+          "test_id": "edge-single-positive",
+          "category": "edge",
+          "status": "passed",
+          "weight": 5,
+          "actual_output": "-43\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 497.663,
+          "peak_rss_kb": 37624
+        },
+        {
+          "test_id": "edge-length-at-most-k",
+          "category": "edge",
+          "status": "passed",
+          "weight": 10,
+          "actual_output": "6\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 486.672,
+          "peak_rss_kb": 37752
+        },
+        {
+          "test_id": "adversarial-preserve-positive",
+          "category": "adversarial",
+          "status": "passed",
+          "weight": 20,
+          "actual_output": "-98\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 558.591,
+          "peak_rss_kb": 37712
+        },
+        {
+          "test_id": "edge-zero-values",
+          "category": "edge",
+          "status": "passed",
+          "weight": 5,
+          "actual_output": "2\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 567.0,
+          "peak_rss_kb": 37832
+        },
+        {
+          "test_id": "adversarial-tied-optima",
+          "category": "adversarial",
+          "status": "passed",
+          "weight": 5,
+          "actual_output": "3\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 447.089,
+          "peak_rss_kb": 37600
+        },
+        {
+          "test_id": "numeric-long-sum",
+          "category": "numeric",
+          "status": "passed",
+          "weight": 10,
+          "actual_output": "1000000000\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 398.575,
+          "peak_rss_kb": 37692
+        },
+        {
+          "test_id": "reference-sample-two",
+          "category": "core",
+          "status": "passed",
+          "weight": 5,
+          "actual_output": "3\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 404.763,
+          "peak_rss_kb": 37692
+        },
+        {
+          "test_id": "adversarial-deque-ordering",
+          "category": "adversarial",
+          "status": "passed",
+          "weight": 5,
+          "actual_output": "1\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 442.365,
+          "peak_rss_kb": 37720
+        },
+        {
+          "test_id": "stress-max-size",
+          "category": "performance",
+          "status": "passed",
+          "weight": 15,
+          "actual_output": "1000000000\n",
+          "stderr": "",
+          "exit_code": 0,
+          "execution_time_ms": 970.343,
+          "peak_rss_kb": 47720
+        }
+      ],
+      "passed_weight": 100
+    }
+  }
+}

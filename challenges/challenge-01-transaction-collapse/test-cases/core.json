@@ -1,0 +1,92 @@
+[
+  {
+    "id": "core-mixed-values",
+    "category": "core",
+    "input": "5 3\n4 -5 3 -2 6\n",
+    "expected_output": "11\n",
+    "weight": 10
+  },
+  {
+    "id": "edge-no-removal",
+    "category": "edge",
+    "input": "4 0\n3 -4 2 0\n",
+    "expected_output": "1\n",
+    "weight": 5
+  },
+  {
+    "id": "edge-positive-only",
+    "category": "edge",
+    "input": "3 2\n1 2 3\n",
+    "expected_output": "6\n",
+    "weight": 5
+  },
+  {
+    "id": "edge-single-positive",
+    "category": "edge",
+    "input": "3 3\n-100 7 -50\n",
+    "expected_output": "-43\n",
+    "weight": 5
+  },
+  {
+    "id": "edge-length-at-most-k",
+    "category": "edge",
+    "input": "3 2\n-5 10 -4\n",
+    "expected_output": "6\n",
+    "weight": 10
+  },
+  {
+    "id": "adversarial-preserve-positive",
+    "category": "adversarial",
+    "input": "4 4\n-100 1 1 -100\n",
+    "expected_output": "-98\n",
+    "weight": 20
+  },
+  {
+    "id": "edge-zero-values",
+    "category": "edge",
+    "input": "4 2\n2 0 -3 0\n",
+    "expected_output": "2\n",
+    "weight": 5
+  },
+  {
+    "id": "adversarial-tied-optima",
+    "category": "adversarial",
+    "input": "5 1\n2 -3 2 -3 2\n",
+    "expected_output": "3\n",
+    "weight": 5
+  },
+  {
+    "id": "numeric-long-sum",
+    "category": "numeric",
+    "input": "4 4\n-1000000000 1000000000 1000000000 -1000000000\n",
+    "expected_output": "1000000000\n",
+    "weight": 10
+  },
+  {
+    "id": "reference-sample-two",
+    "category": "core",
+    "input": "3 3\n-2 5 -10\n",
+    "expected_output": "3\n",
+    "weight": 5
+  },
+  {
+    "id": "adversarial-deque-ordering",
+    "category": "adversarial",
+    "input": "3 2\n-2 -2 1\n",
+    "expected_output": "1\n",
+    "weight": 5
+  },
+  {
+    "id": "stress-max-size",
+    "category": "performance",
+    "generator": {
+      "kind": "alternating",
+      "n": 200000,
+      "k": 200000,
+      "positive": 1000000000,
+      "negative": -1000000000
+    },
+    "expected_output": "1000000000\n",
+    "weight": 15
+  }
+]

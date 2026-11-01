@@ -1,27 +1,49 @@
 # Related Work
 
-## Review status
+## Scope and evidence standard
 
-This is an initial synthesis of the research leads provided for this project, not a completed systematic literature review. The supplied summary gives benchmark names and selected counts or conclusions but not complete citations for every work. Attempts to retrieve publisher and arXiv pages were unsuccessful in the prior research session. Accordingly, all facts not checked against primary sources are identified as **unverified leads** and must not be presented as confirmed publication findings.
+This review covers influential and directly relevant evaluation projects. Paper titles and high-level claims below are linked to primary arXiv records or official benchmark repositories. Benchmark counts are release-specific and must not be conflated across versions. Access date for the linked sources: 2026-11-01.
 
-## Identified benchmark leads
+This is a focused narrative review, not a systematic review. It does not establish that the proposed matched constraint experiment is novel.
 
-| Work | Supplied description | Relevance to this project | Verification needed |
-|---|---|---|---|
-| LiveCodeBench | Described as a contamination-aware code benchmark using recent programming problems from online platforms; the supplied summary attributes it to ICLR 2025. | Supports fresh tasks and execution-based evaluation; does not by itself establish the novelty of this particular matched constraint comparison. | Confirm exact title, authors, venue, dataset version and size, task sources, evaluation procedure, and findings from the paper and official repository. |
-| ProBench | Described as competitive-programming evaluation with online-judge submissions, resource measurements, and failure analysis; the summary reports 790 tasks and a 2025 date. | Relevant to competitive-programming evaluation and failure categorization. | Confirm paper identity, authors, venue, dataset count/version, methodology, and reported results. |
-| LiveCodeBench Pro | Described as an expert-annotated, Olympiad-level programming benchmark; the supplied summary attributes it to NeurIPS 2025. | Relevant to expert task annotation and analysis of nuanced algorithmic failures. | Confirm exact paper identity, authors, venue, task count, annotation process, and findings. |
-| CONCUR | Described as an LLM concurrent-code-generation benchmark; the summary attributes it to ISSTA 2026 and reports 43 base problems plus 72 variants. | Important scope contrast: concurrency is not the same as the proposed sequential optimization task. | Confirm publication identity and all counts from the proceedings paper and official artifacts. |
-| PROBE | Described as evaluating functional correctness, similarity to valid solutions, and code quality; the supplied summary refers to Springer Nature and 2026. | Suggests that evaluation can report quality dimensions beyond compilation and test success. | Establish exact title, authors, venue, DOI, methodology, and findings; confirm that the described dimensions are accurate. |
+## Literature
 
-## Interpretation
+### HumanEval / Codex
 
-If verified, these works demonstrate that code-generation correctness, competitive programming, concurrency, expert task evaluation, and broader code-quality measures already have research precedents. They should therefore be acknowledged rather than framed as untouched areas. The narrower proposed contribution is a controlled comparison of one sequential optimization task with and without a single global feasibility constraint.
+**Mark Chen et al., “Evaluating Large Language Models Trained on Code” (arXiv submission 2021).** [arXiv:2107.03374](https://arxiv.org/abs/2107.03374).
 
-The reported counts and venue labels above originate from the supplied research summary and are not independently confirmed here. They are not adequate evidence for a literature claim until the source log is completed.
+The paper introduces HumanEval, a set of 164 Python function-synthesis problems specified as docstrings and checked with executable tests, and evaluates Codex and other code models. The authors report pass@k results and discuss repeated sampling. This is early evidence for execution-based functional correctness, not a result about current frontier models. HumanEval is Python-focused and short-function oriented; it does not isolate Java algorithmic constraints, adversarial operation histories, or transactional invariants.
 
-## Required review for each paper
+### MBPP
 
-For every confirmed work, add the full paper title, complete author list, publication year and venue, primary paper URL or DOI, research objective, methodology, dataset or benchmark version and size, main findings, limitations, and relationship to this study. Distinguish the paper's reported results from this project's interpretation. Prefer primary papers and official benchmark repositories over secondary descriptions.
+**Jacob Austin et al., “Program Synthesis with Large Language Models” (arXiv submission 2021).** [arXiv:2108.07732](https://arxiv.org/abs/2108.07732).
 
-See [research-sources.md](research-sources.md) for source leads and the outstanding verification steps.
+The work introduces Mostly Basic Programming Problems (MBPP), a collection of 974 entry-level Python programming tasks, and MathQA-Python (23,914 problems), and studies few-shot and fine-tuned synthesis from natural-language descriptions. The abstract reports performance scaling with model size and analyzes the effects of feedback. The tasks are Python-focused and do not form a Java transaction/state-management benchmark or a matched test of one added global feasibility constraint.
+
+### SWE-bench
+
+**Carlos E. Jimenez et al., “SWE-bench: Can Language Models Resolve Real-World GitHub Issues?” (arXiv submission 2023).** [arXiv:2310.06770](https://arxiv.org/abs/2310.06770).
+
+SWE-bench evaluates whether a model can resolve real issues in existing repositories. The paper describes 2,294 problems across 12 Python repositories, with repository context and tests, and reports that the evaluated models resolved only a small fraction of issues at publication time. It captures software-engineering work across files rather than standalone stdin/stdout algorithm challenges; it does not isolate the proposed constraint.
+
+### LiveCodeBench
+
+**Naman Jain et al., “LiveCodeBench: Holistic and Contamination Free Evaluation of Large Language Models for Code” (arXiv submission 2024).** [arXiv:2403.07974](https://arxiv.org/abs/2403.07974); [official repository](https://github.com/LiveCodeBench/LiveCodeBench).
+
+The project continuously collects contest questions from LeetCode, AtCoder, and Codeforces and evaluates multiple coding capabilities. The official repository lists dated release versions and reports 400 questions in its initial release, with later releases growing substantially. It is directly relevant to competitive programming and freshness/contamination concerns. It is a broad benchmark rather than a controlled comparison of an otherwise matched problem with and without one global feasibility rule.
+
+### BigCodeBench
+
+**Terry Yue Zhuo et al., “BigCodeBench: Benchmarking Code Generation with Diverse Function Calls and Complex Instructions” (arXiv submission 2024).** [arXiv:2406.15877](https://arxiv.org/abs/2406.15877); [official repository](https://github.com/bigcode-bench/bigcodebench).
+
+BigCodeBench targets complex instructions and diverse library/function use, with executable evaluation. Its official repository describes the benchmark and release artifacts. This offers a useful contrast: realistic instruction-following and API-use challenges differ from a standalone algorithm specification with Java stdin/stdout and explicit asymptotic constraints.
+
+## Synthesis and project interpretation
+
+The cited literature shows that functional correctness, programming-problem synthesis, competitive-programming performance, complex instruction following, and real repository repair are established evaluation areas. The project must not claim those fields are unstudied. Its defensible candidate is narrower: a preregistered, matched Java task comparison that measures the incremental effect of a named global constraint and classifies failures using predeclared categories.
+
+The cited studies do not establish that AI models will fail on the proposed task. That remains an empirical question. The present review also does not verify the supplied brief’s claims about ProBench, LiveCodeBench Pro, CONCUR, or PROBE; those works require exact identification and primary-source checks before being included as evidence.
+
+## Limitations
+
+This review is not exhaustive, does not include a systematic search protocol, and does not provide complete author lists or venue metadata where the primary record was not inspected in detail. Before final submission, expand it with database/search terms, inclusion criteria, full citations, the applicable benchmark snapshots, and primary-source validation for every claim.
